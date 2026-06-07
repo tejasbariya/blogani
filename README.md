@@ -95,6 +95,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Project Link: [https://github.com/tejasbariya/blogani](https://github.com/tejasbariya/blogani)
 
+Live Application: [https://blogani.onrender.com](https://blogani.onrender.com)
+
 ## 🙏 Acknowledgments
 
 - [Express.js](https://expressjs.com/)
