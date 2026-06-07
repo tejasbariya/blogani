@@ -1,0 +1,26 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+    rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Lora', 'serif'] },
+                colors: { accent: { DEFAULT: '#f43f5e', hover: '#e11d48', light: '#ffe4e6' } }
+            }
+        }
+    }
+</script>
+<style type="text/tailwindcss">
+    @layer components {
+    .form-input { @apply w-full px-4 py-3 rounded-xl border border-zinc-200 bg-zinc-50 font-sans text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition-all duration-200; }
+    .form-label { @apply block text-sm font-medium text-zinc-800 tracking-wide; }
+    .btn-primary { @apply bg-accent text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-accent-hover hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent/20 cursor-pointer; }
+    .btn-secondary { @apply border border-zinc-200 text-zinc-600 px-5 py-2.5 rounded-full text-sm font-medium hover:border-zinc-300 hover:text-zinc-900 transition-all duration-200 cursor-pointer; }
+  }
+</style>

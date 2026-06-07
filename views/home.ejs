@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-zinc-50">
+
+<head>
+    <title>Bloga Floga</title>
+    <%- include("./partials/head") %>
+</head>
+
+<body class="text-zinc-900 font-sans antialiased flex flex-col min-h-screen">
+    <%- include("./partials/navbar") %>
+
+        <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+
+            <section class="py-12 md:py-16 max-w-2xl space-y-4">
+                <h1 class="text-4xl md:text-5xl font-serif leading-tight tracking-tight text-zinc-900">Stories that
+                    demand to be read.</h1>
+                <p class="text-zinc-500 leading-relaxed text-base">A quiet space for thought-provoking entries, personal
+                    discoveries, and clean web engineering. Free of algorithmic feeds.</p>
+                <div class="flex gap-3 pt-2">
+                    <a href="#feed" class="btn-primary">Explore Feed</a>
+                    <a href="/blog/create" class="btn-secondary">Start Writing</a>
+                </div>
+            </section>
+
+            <section id="feed" class="py-12 border-t border-zinc-100">
+                <% if(locals.blogs && locals.blogs.length> 0) { %>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <% for(let blog of locals.blogs) { %>
+                            <%- include("./partials/story-card", { blog: blog }) %>
+                                <% } %>
+                    </div>
+                    <% } else { %>
+                        <div
+                            class="text-center py-16 bg-white border border-dashed border-zinc-200 rounded-2xl max-w-md mx-auto">
+                            <p class="text-zinc-400 text-sm">No stories published yet.</p>
+                            <a href="/blog/create" class="mt-4 inline-block btn-primary">Create Post</a>
+                        </div>
+                        <% } %>
+            </section>
+        </main>
+
+        <%- include("./partials/footer") %>
+</body>
+
+</html>

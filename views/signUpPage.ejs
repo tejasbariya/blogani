@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-zinc-50">
+
+<head>
+    <title>Sign Up</title>
+    <%- include("./partials/head") %>
+</head>
+
+<body class="text-zinc-900 font-sans antialiased min-h-screen flex flex-col justify-between">
+    <%- include("./partials/navbar") %>
+
+        <main class="flex-grow flex items-center justify-center py-12 px-4">
+            <div class="max-w-md w-full bg-white border border-zinc-100 p-8 rounded-2xl space-y-6">
+                <div class="text-center">
+                    <h1 class="font-serif tracking-tight text-2xl text-zinc-900">Sign Up</h1>
+                    <p class="text-xs text-zinc-400 mt-1">Join writers contributing architectural insights</p>
+                </div>
+
+                <form method="post" action="/user/signUp" class="space-y-4">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="fullName" placeholder="Tony Stark" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email address</label>
+                        <input type="email" name="email" placeholder="tony@stark.ironman" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" placeholder="••••••••" class="form-input" required>
+                    </div>
+                    <% if(locals.error) { %>
+                        <div class="form-group">
+                            <p class="text-red-500 text-sm"><%= locals.error %></p>
+                        </div>
+                    <% }%>
+
+                    <button type="submit" class="w-full btn-primary py-3 mt-2">Sign Up</button>
+                </form>
+
+                <p class="text-center text-xs text-zinc-400">
+                    Have an account? <a href="/user/signIn" class="text-accent font-medium hover:underline">Sign in
+                        instead</a>
+                </p>
+            </div>
+        </main>
+
+        <%- include("./partials/footer") %>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<article
+    class="bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:border-zinc-300 hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full group">
+    <a href="/blog/<%= blog._id %>" class="aspect-video overflow-hidden bg-zinc-100 block">
+        <img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            src="<%= blog.blogImageUrl || '/images/cover-placeholder.jpg' %>" alt="">
+    </a>
+    <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
+        <div class="space-y-2">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-accent">Journal</span>
+            <h3 class="text-lg font-serif leading-snug group-hover:text-accent transition-colors">
+                <a href="/blog/<%= blog._id %>">
+                    <%= blog.title %>
+                </a>
+            </h3>
+        </div>
+        <div class="pt-3 border-t border-zinc-100 flex justify-between items-center text-xs text-zinc-400">
+            <span>June 6, 2026</span>
+            <a href="/blog/delete/<%= blog._id %>" class="hover:text-rose-600 transition-colors p-1"
+                title="Delete entry">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                    </path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</article>

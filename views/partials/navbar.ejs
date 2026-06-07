@@ -1,0 +1,40 @@
+<header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-zinc-100">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+        <a href="/" class="flex items-center gap-2 group">
+            <svg class="w-5 h-5 text-accent transition-transform group-hover:-rotate-6" fill="none"
+                stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                </path>
+            </svg>
+            <span class="font-serif text-lg font-medium tracking-tight">BlogAni</span>
+        </a>
+        <a href="/user/allUsersData" class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">All Users Data</a>
+
+        <div class="flex items-center gap-6">
+            <% if(locals.user) { %>
+                <a href="/blog/create"
+                    class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Write</a>
+                <div class="relative group py-4">
+                    <div class="flex items-center gap-2 cursor-pointer text-sm text-zinc-700">
+                        <img class="w-7 h-7 rounded-full object-cover border"
+                            src="/<%= user.profileImageUrl || 'images/avatar-placeholder.png' %>" alt="">
+                        <span>
+                            <%= user.fullName %>
+                        </span>
+                    </div>
+                    <div
+                        class="absolute right-0 top-full w-40 bg-white border border-zinc-100 rounded-xl py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 translate-y-1">
+                        <a class="block px-4 py-2 text-sm text-zinc-600 hover:text-accent hover:bg-zinc-50"
+                            href="/user/logout">Sign out</a>
+                    </div>
+                </div>
+                <% } else { %>
+                    <a href="/user/signIn"
+                        class="text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors">Sign in</a>
+                    <a href="/user/signUp" class="btn-primary">Get started</a>
+                    <% } %>
+        </div>
+    </div>
+</header>
