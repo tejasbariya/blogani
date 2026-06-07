@@ -2,7 +2,7 @@
     class="bg-white border border-zinc-100 rounded-2xl overflow-hidden hover:border-zinc-300 hover:-translate-y-0.5 transition-all duration-300 flex flex-col h-full group">
     <a href="/blog/<%= blog._id %>" class="aspect-video overflow-hidden bg-zinc-100 block">
         <img class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-            src="<%= blog.blogImageUrl || '/images/cover-placeholder.jpg' %>" alt="">
+            src="/blog/media/<%= blog.coverImageId || '/images/cover-placeholder.jpg' %>" alt="">
     </a>
     <div class="p-5 flex flex-col flex-grow justify-between space-y-4">
         <div class="space-y-2">

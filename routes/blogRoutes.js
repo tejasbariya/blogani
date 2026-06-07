@@ -1,5 +1,4 @@
 const { Router } = require("express");
-const multer = require("multer");
 const path = require("path");
 const fs = require("fs").promises;
 
@@ -7,14 +6,9 @@ const Blog = require("../models/blog");
 const Comment = require("../models/comment");
 
 const { restrictToLoggedInUsers } = require("../middlewares/auth");
+const { cloudinary, uploadPrivateFile } = require("../utils/cloudinary");
 
 const router = Router();
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.resolve("./public/uploads/coverImages")),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
-});
-const upload = multer({ storage });
 
 // Public: View Feed Feed
 router.get("/", async (req, res) => {
@@ -27,29 +21,67 @@ router.get("/create", restrictToLoggedInUsers, (req, res) => {
   return res.render("createBlog", { user: req.user });
 });
 
-// Protected: Save Article Submission
-router.post("/create", restrictToLoggedInUsers, upload.single("coverImage"), async (req, res) => {
+// Protected: Create Article with optional cover image upload to Cloudinary
+router.post("/create", restrictToLoggedInUsers, async (req, res) => {
   const { title, body } = req.body;
-  const blogImageUrl = req.file ? `/uploads/coverImages/${req.file.filename}` : "/images/cover-placeholder.jpg";
+  let coverImageId = "placeholder";
 
-  const blog = await Blog.create({
-    title,
-    body,
-    blogImageUrl,
-    postedBy: req.user._id,
+  try {
+    if (req.files && req.files.coverImage) {
+      const uploadResult = await uploadPrivateFile(req.files.coverImage.data);
+      coverImageId = uploadResult.public_id;
+    }
+
+    const blog = await Blog.create({
+      title,
+      body,
+      coverImageId,
+      postedBy: req.user._id,
+    });
+    
+    return res.redirect(`/blog/${blog._id}`);
+  } catch (error) {
+    console.error("Upload error:", error);
+    return res.redirect("/blog/create");
+  }
+});
+
+router.get("/media/*imageId", restrictToLoggedInUsers, (req, res) => {
+  let publicId = req.params.imageId;
+
+  // Express 5 coerces wildcard arrays into comma-separated strings.
+  // Handle both comma-separated and array formats for publicId
+  if (typeof publicId === "string" && publicId.includes(",")) {
+    publicId = publicId.split(",").join("/");
+  } else if (Array.isArray(publicId)) {
+    publicId = publicId.join("/");
+  }
+  
+  if (publicId === "placeholder") {
+    return res.redirect("/images/cover-placeholder.jpg");
+  }
+
+  // Generate a signed URL for the private media
+  const secureUrl = cloudinary.url(publicId, {
+    type: "authenticated",
+    sign_url: true,
+    secure: true,
   });
-  return res.redirect(`/blog/${blog._id}`);
+
+  // Redirect the browser to the authenticated Cloudinary link
+  res.redirect(secureUrl);
 });
 
 // Protected: Destroy Entry
 router.get("/delete/:id", restrictToLoggedInUsers, async (req, res) => {
   try {
     const blog = await Blog.findOneAndDelete({ _id: req.params.id, postedBy: req.user._id });
-    if (blog?.blogImageUrl && !blog.blogImageUrl.includes("placeholder")) {
-      await fs.unlink(path.resolve(`./public${blog.blogImageUrl}`)).catch(() => null);
+    
+    if (blog && blog.coverImageId !== "placeholder") {
+      await cloudinary.uploader.destroy(blog.coverImageId, { type: "authenticated" });
     }
   } catch (err) {
-    console.error("Error executing safe deletion pipeline:", err);
+    console.error("Deletion pipeline error:", err);
   }
   return res.redirect("/blog");
 });

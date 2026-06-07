@@ -1,13 +1,21 @@
+// Main Entry Point for the Blog Application
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
-const connectDB = require("./db");
-const blogRoutes = require("./routes/blogRoutes");
-const { checkForAuthentication } = require("./middlewares/auth");
 
+// Database Connection
+const connectDB = require("./db");
+
+// Route Handlers
+const blogRoutes = require("./routes/blogRoutes");
 const userRoutes = require("./routes/userRoutes");
 
+// Custom Middleware
+const { checkForAuthentication } = require("./middlewares/auth");
+
+// Initialize Express Application
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -19,6 +27,7 @@ app.set("views", path.resolve("./views"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 } }));
 app.use(express.static(path.resolve("./public")));
 
 // Soft Authentication Check 

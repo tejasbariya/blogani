@@ -33,9 +33,9 @@
           </div>
         </header>
 
-        <% if(locals.blog.blogImageUrl) { %>
+        <% if(locals.blog.coverImageId) { %>
           <div class="aspect-video w-full rounded-xl overflow-hidden bg-zinc-100 mt-8">
-            <img src="<%= locals.blog.blogImageUrl %>" alt="" class="w-full h-full object-cover">
+            <img src="/blog/media/<%= locals.blog.coverImageId %>" alt="" class="w-full h-full object-cover">
           </div>
           <% } %>
 
