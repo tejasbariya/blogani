@@ -46,7 +46,7 @@ router.post("/create", restrictToLoggedInUsers, async (req, res) => {
   }
 });
 
-router.get("/media/*imageId", restrictToLoggedInUsers, (req, res) => {
+router.get("/media/*imageId", (req, res) => {
   let publicId = req.params.imageId;
 
   // Express 5 coerces wildcard arrays into comma-separated strings.
